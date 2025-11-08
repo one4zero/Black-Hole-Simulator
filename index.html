@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Симулятор Черной Дыры 3D</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #info-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 300px;
+        }
+
+        #info-panel h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px #00d4ff;
+        }
+
+        #info-panel p {
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .control-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: 250px;
+        }
+
+        .control-panel h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ff6b00;
+            text-shadow: 0 0 10px #ff6b00;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .control-group input[type="checkbox"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .value-display {
+            display: inline-block;
+            color: #00d4ff;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #00d4ff;
+            text-shadow: 0 0 20px #00d4ff;
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .instructions p {
+            margin: 5px 0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div id="loading">Загрузка симулятора...</div>
+
+    <div id="info-panel">
+        <h1>🌌 Черная Дыра</h1>
+        <p><strong>Тип:</strong> Сверхмассивная</p>
+        <p><strong>Масса:</strong> <span id="mass-value">~4 млн M☉</span></p>
+        <p><strong>Радиус Шварцшильда:</strong> <span id="radius-value">12 млн км</span></p>
+        <p>Наблюдайте гравитационное линзирование, аккреционный диск и искривление пространства-времени.</p>
+    </div>
+
+    <div class="control-panel">
+        <h2>⚙️ Настройки</h2>
+
+        <div class="control-group">
+            <label>Скорость вращения диска: <span class="value-display" id="disk-speed-value">1.0</span></label>
+            <input type="range" id="disk-speed" min="0" max="3" step="0.1" value="1.0">
+        </div>
+
+        <div class="control-group">
+            <label>Интенсивность свечения: <span class="value-display" id="glow-value">1.0</span></label>
+            <input type="range" id="glow-intensity" min="0" max="2" step="0.1" value="1.0">
+        </div>
+
+        <div class="control-group">
+            <label>Количество звезд: <span class="value-display" id="stars-value">5000</span></label>
+            <input type="range" id="star-count" min="1000" max="10000" step="1000" value="5000">
+        </div>
+
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="auto-rotate" checked>
+                Авто-вращение камеры
+            </label>
+        </div>
+
+        <div class="control-group">
+            <label>
+                <input type="checkbox" id="show-disk" checked>
+                Показать аккреционный диск
+            </label>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <p><strong>🖱️ Управление:</strong></p>
+        <p>Левая кнопка мыши - вращение | Правая кнопка - панорамирование | Колесико - приближение</p>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
